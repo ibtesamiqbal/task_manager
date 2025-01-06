@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:task_manager/calendar_screen.dart';
+import 'package:task_manager/create_task_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -28,8 +29,8 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<Widget> _screens = [
     const HomeContent(),
     const CalendarScreen(),
-    NotificationScreen(),
-    SearchScreen(),
+    const NotificationScreen(),
+    const SearchScreen(),
   ];
 
   @override
@@ -54,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         currentIndex: _currentIndex,
-        selectedItemColor: const Color(0xFF7B61FF),
+        selectedItemColor: const Color.fromARGB(255, 39, 14, 165),
         unselectedItemColor: Colors.grey.shade400,
         onTap: (index) {
           setState(() {
@@ -89,60 +90,64 @@ class HomeContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            "Hello Rohan!",
-            style: TextStyle(
-              fontSize: 28,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              "Hello Rohan!",
+              style: TextStyle(
+                fontSize: 28,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
             ),
-          ),
-          const SizedBox(height: 5),
-          Text(
-            "Have a nice day.",
-            style: TextStyle(
-              fontSize: 16,
-              color: Colors.grey.shade600,
+            const SizedBox(height: 5),
+            Text(
+              "Have a nice day.",
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.grey.shade600,
+              ),
             ),
-          ),
-          const SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              categoryChip("My Tasks", isActive: true),
-              categoryChip("In-progress"),
-              categoryChip("Completed"),
-            ],
-          ),
-          const SizedBox(height: 20),
-          SizedBox(
-            height: 180,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
+            const SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                taskCard("Project 1", "Front-End Development", const Color(0xFF7B61FF)),
-                taskCard("Project 2", "Back-End Development", const Color(0xFF9E79FF)),
+                categoryChip("My Tasks", isActive: true),
+                GestureDetector(onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const CreateTaskScreen()));
+                } ,child: categoryChip("In-progress")),
+                categoryChip("Completed"),
               ],
             ),
-          ),
-          const SizedBox(height: 20),
-          const Text(
-            "Progress",
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
+            const SizedBox(height: 20),
+            SizedBox(
+              height: 180,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: [
+                  taskCard("Project 1", "Front-End Development", const Color.fromARGB(255, 47, 21, 176)),
+                  taskCard("Project 2", "Back-End Development", const Color.fromARGB(255, 67, 20, 184)),
+                ],
+              ),
             ),
-          ),
-          const SizedBox(height: 10),
-          progressTile("Design Changes", "2 days ago"),
-          progressTile("Design Changes", "2 days ago"),
-        ],
+            const SizedBox(height: 20),
+            const Text(
+              "Progress",
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+            ),
+            const SizedBox(height: 10),
+            progressTile("Design Changes", "2 days ago"),
+            progressTile("Design Changes", "2 days ago"),
+          ],
+        ),
       ),
     );
   }
